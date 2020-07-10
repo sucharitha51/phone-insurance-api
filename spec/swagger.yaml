@@ -1,0 +1,188 @@
+swagger: "2.0"
+info:
+  description: "This is a sample API to manage phone premiums and excess."
+  version: "1.0.0"
+  title: "Phone Insurance premium API"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "ch.sucharitha@gmail.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "api.example.com"
+basePath: "/api/v1"
+tags:
+- name: "phone"
+  description: "Phone details and excess management"
+  
+schemes:
+- "https"
+- "http"
+paths:
+  /phone:
+    post:
+      tags:
+      - "phone"
+      summary: "Add a new phone to the data store"
+      description: ""
+      operationId: "addPhone"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Phone object that needs to be added to the store (id is not required)"
+        required: true
+        schema:
+          $ref: "#/definitions/Phone"
+      responses:
+        "400":
+          description: "Invalid input"
+        "500":
+          description: "Internal server error"  
+        "200":
+          description: "successful operation"
+          schema:
+           $ref: "#/definitions/ApiResponse"
+    get:
+      tags:
+      - "phone"
+      summary: "Finds all phone models with insurance details"
+      operationId: "findAll"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Phone"
+        "500":
+          description: "Internal server error"
+    put:
+      tags:
+      - "phone"
+      summary: "Updates a phone in the store"
+      description: ""
+      operationId: "updatePhone"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "body"
+        in: "body"
+        description: "Phone object that needs to be added to the store"
+        schema:
+          $ref: "#/definitions/Phone"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Phone"
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Phone not found"   
+        "500":
+          description: "Internal server error"  
+  
+  /phone/{phoneId}:
+    get:
+      tags:
+      - "phone"
+      summary: "Find Phone by ID"
+      description: "Returns a single Phone with insurance details"
+      operationId: "getPhoneById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "phoneId"
+        in: "path"
+        description: "ID of phone to return"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Phone"
+        "500":
+          description: "Internal server error"
+        "404":
+          description: "Phone not found"
+          
+    delete:
+      tags:
+      - "phone"
+      summary: "Deletes a Phone"
+      description: ""
+      operationId: "deletePhone"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "phoneId"
+        in: "path"
+        description: "Phone id to delete"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "400":
+          description: "Invalid ID supplied"
+        "500":
+          description: "Internal server error"  
+        "404":
+          description: "Phone not found"
+  
+definitions:
+  Phone:
+    type: "object"
+    required:
+    - "make"
+    - "model"
+    - "storage"
+    - "monthly_premium"
+    - "excess"
+    properties:
+      id:
+        type: "integer"
+        description: "Not required for create"
+        format: "int64"
+        example: 12345
+      make:
+        type: "string"
+        example: "Apple"
+      model:
+        type: "string"
+        example: "iPhoneX"
+      storage:
+        type: "string"
+        example: "120GB"
+      monthly_premium:
+        type: "number"
+        example: 12.34
+      yearly_premium:
+        type: "number"
+        example: 135.74
+      excess:
+        type: "integer"
+        example: 50  
+      start_date:
+        type: "string"
+        description: "is for setting different premiums with different start dates"
+        example: "2020-07-10 23:12:23"  
+  ApiResponse:
+    type: "object"
+    properties:
+      error:
+        type: "boolean"
+        example: false
+      message:
+        type: "string"
+      data:
+       $ref: "#/definitions/Phone"
