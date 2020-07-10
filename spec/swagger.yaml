@@ -179,9 +179,6 @@ definitions:
   ApiResponse:
     type: "object"
     properties:
-      error:
-        type: "boolean"
-        example: false
       message:
         type: "string"
       data:
