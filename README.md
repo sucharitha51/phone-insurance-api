@@ -9,12 +9,14 @@ This Application allows us to add phones with premium and excess details. It has
 - PUT /api/v1/phone - takes in new details and updates in the database
 - POST /api/v1/phone - create a new phone
 
-### The functionality also covers following points
+### This functionality also covers following points
 1. Multiple premium and excess for each phone, defined by a start date.
 2. When the start date is reached, the GET endpoint returns the new premium and excess.
 3. Submitting new premium and excess to the API along with a start date.
 
 Detailed API specification can be found at spec/swagger.yaml
+
+Mocked API Specification available at https://app.swaggerhub.com/apis/sucharitha/phone-insurance-api/1.0.0
 
 Database migrations are available at migrations/*
 
